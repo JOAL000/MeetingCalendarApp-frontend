@@ -29,11 +29,11 @@ export default function Form() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="container mt-4">
       <div className="mb-3">
-        <label className="form-label">Meeting Title</label>
+        <label className="form-label">Title</label>
         <input
           type="text"
-          placeholder="Meeting Title"
-          {...register}
+          placeholder="Title"
+          {...register("Title", { required: true })}
           className="form-control"
         />
       </div>

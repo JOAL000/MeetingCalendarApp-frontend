@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Form from "./Form";
+import List from "./List";
 
 
 const Dashboard = () => {
@@ -22,17 +23,9 @@ const Dashboard = () => {
             <li>
               <button
                 className="btn btn-outline-primary w-100 mb-2"
-                onClick={() => navigate("/dashboard/manage-users")}
+                onClick={() => navigate("/dashboard/*")}
               >
                 Dashboard Home
-              </button>
-            </li>
-            <li>
-              <button
-                className="btn btn-outline-primary w-100 mb-2"
-                onClick={() => navigate("/dashboard/manage-users")}
-              >
-                Manage Users
               </button>
             </li>
             <li>
@@ -43,15 +36,23 @@ const Dashboard = () => {
                 Form
               </button>
             </li>
+            <li>
+              <button
+                className="btn btn-outline-primary w-100 mb-2"
+                onClick={() => navigate("/dashboard/List")}
+              >
+                List
+              </button>
+            </li>
           </ul>
         </nav>
       </aside>
 
       <main style={{ flex: 1, padding: "16px" }}>
         <Routes>
-          <Route path="manage-users" element={<ManageUsers />} />
+          <Route path="*" element={<DashboardHome/>} />
           <Route path="Form" element={<Form/>} />
-          <Route path="*" element={<DashboardHome />} />
+          <Route path="List" element={<List/>} />
         </Routes>
       </main>
     </div>
@@ -62,8 +63,5 @@ const DashboardHome = () => {
   return "Dashboard Home";
 };
 
-const ManageUsers = () => {
-  return "Manage Users";
-};
 
 export default Dashboard;

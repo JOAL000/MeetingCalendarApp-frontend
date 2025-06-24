@@ -29,8 +29,8 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    //return <Dashboard/>;
-    <div className="container">
+    
+    <div className="container d-flex flex-column align-items-center vh-100">
       <h2>Home Component</h2>
       <div className="btn-group">
         <button className="btn btn-outline-danger" onClick={() => navigate(-1)}>

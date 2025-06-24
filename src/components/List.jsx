@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
+//import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import MeetingForm from "./MeetingForm";
 
-const MeetingList = () => {
+const List = () => {
   const [meetings, setMeetings] = useState([]);
   const apiEndpoint = "http://localhost:8080/api/meeting";
 
@@ -77,71 +76,31 @@ const MeetingList = () => {
     <div className="container mt-5">
       <h2 className="text-center mb-4">Your Meetings</h2>
       {/* Add Meeting Form */}
-      <MeetingForm onMeetingAdded={handleMeetingAdded} />
+      {/* <MeetingForm onMeetingAdded={handleMeetingAdded} />*/}
 
       <div className="table">
         <table className="table table-bordered table-striped">
           <thead className="thead-dark">
             <tr>
               <th>#</th>
-              <th>Meeting</th>
+              <th>Title</th>
               <th>Date</th>
               <th>Time</th>
-              <th>Location</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>Level</th>
+              <th>Participants</th>
+              <th>Descrption</th>
             </tr>
           </thead>
           <tbody>
             {meetings.map((meeting, index) => (
               <tr key={meeting.id}>
-                <td>{index + 1}</td>
+                <td>{meeting.id}</td>
                 <td>{meeting.title}</td>
                 <td>{meeting.date}</td>
                 <td>{meeting.time}</td>
-                <td>{meeting.location}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      meeting.status === "accepted"
-                        ? "bg-success"
-                        : meeting.status === "declined"
-                        ? "bg-danger"
-                        : "bg-warning text-dark"
-                    }`}
-                  >
-                    {meeting.status.charAt(0).toUpperCase() +
-                      meeting.status.slice(1)}
-                  </span>
-                </td>
-                <td>
-                  {meeting.status === "pending" && (
-                    <>
-                      <button
-                        className="btn btn-sm btn-success me-2"
-                        onClick={() =>
-                          updateMeetingStatus(meeting.id, "accepted")
-                        }
-                      >
-                        <FaCheck /> Accept
-                      </button>
-                      <button
-                        className="btn btn-sm btn-danger me-2"
-                        onClick={() =>
-                          updateMeetingStatus(meeting.id, "declined")
-                        }
-                      >
-                        <FaTimes /> Decline
-                      </button>
-                    </>
-                  )}
-                  <button
-                    className="btn btn-sm btn-secondary"
-                    onClick={() => deleteMeeting(meeting.id)}
-                  >
-                    <FaTrash /> Remove
-                  </button>
-                </td>
+                <td>{meeting.level}</td>
+                <td>{meeting.participants}</td>
+                <td>{meeting.descreption}</td>
               </tr>
             ))}
           </tbody>
