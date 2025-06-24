@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import InvitationForm from "./InvitationForm";
+import MeetingForm from "./MeetingForm";
 
-const InvitationList = () => {
-  const [meetings, setMeetingS] = useState([]);
+const MeetingList = () => {
+  const [meetings, setMeetings] = useState([]);
   const apiEndpoint = "http://localhost:8080/api/meeting";
 
-  // Fetch all invitations using async/await
+  // Fetch all meetings using async/await
   useEffect(() => {
-    fetchAllInvitations();
+    fetchAllMeetings();
   }, []);
 
-  const fetchAllInvitations = async () => {
-    console.log("Step1: Starting to fetch invitations...");
+  const fetchAllMeetings = async () => {
+    console.log("Step1: Starting to fetch meetings...");
 
     await axios
       .get(apiEndpoint)
@@ -24,9 +24,9 @@ const InvitationList = () => {
         // Verify successful response (HTTP 200)
         if (response.status === 200) {
           console.log("RESPONSE DATA:", response.data);
-          setInvitations(response.data); // Set the invitations data
+          setMeetings(response.data); // Set the meetings data
           console.log(
-            "Step3: Invitations successfully fetched and state updated."
+            "Step3: Meetings successfully fetched and state updated."
           );
         } else {
           console.error("Unexpected response status:", response.status);
@@ -36,48 +36,48 @@ const InvitationList = () => {
         console.error("Error occurred during the API call.", error);
       });
 
-    console.log("Step4: Finished fetching invitations.");
+    console.log("Step4: Finished fetching meetings.");
   };
 
-  // Update invitation status (PUT or PATCH)
-  const updateInvitationStatus = async (id, newStatus) => {
+  // Update meeting status (PUT or PATCH)
+  const updateMeetingStatus = async (id, newStatus) => {
     try {
       console.log("newStatus:", newStatus);
       const response = await axios.put(
         `${apiEndpoint}/${id}?status=${newStatus}`
       );
       if (response.status === 204) {
-        fetchAllInvitations();
-        console.log("Invitation status updated successfully.");
+        fetchAllMeetings();
+        console.log("Meeting status updated successfully.");
       }
     } catch (error) {
-      console.error("Error updating invitation:", error);
+      console.error("Error updating meeting:", error);
     }
   };
 
-  // Delete an invitation
-  const deleteInvitation = async (id) => {
+  // Delete an meeting
+  const deleteMeeting = async (id) => {
     try {
       const response = await axios.delete(`${apiEndpoint}/${id}`);
       if (response.status === 204) {
-        fetchAllInvitations();
-        console.log("Invitation deleted successfully.");
+        fetchAllMeetings();
+        console.log("Meeting deleted successfully.");
       }
     } catch (error) {
-      console.error("Error deleting invitation:", error);
+      console.error("Error deleting meeting:", error);
     }
   };
 
-  // Callback for adding a new invitation
-  const handleInvitationAdded = () => {
-    fetchAllInvitations();
+  // Callback for adding a new meeting
+  const handleMeetingAdded = () => {
+    fetchAllMeetings();
   };
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Your Invitations</h2>
-      {/* Add Invitation Form */}
-      <InvitationForm onInvitationAdded={handleInvitationAdded} />
+      <h2 className="text-center mb-4">Your Meetings</h2>
+      {/* Add Meeting Form */}
+      <MeetingForm onMeetingAdded={handleMeetingAdded} />
 
       <div className="table">
         <table className="table table-bordered table-striped">
@@ -93,34 +93,34 @@ const InvitationList = () => {
             </tr>
           </thead>
           <tbody>
-            {invitations.map((invitation, index) => (
-              <tr key={invitation.id}>
+            {meetings.map((meeting, index) => (
+              <tr key={meeting.id}>
                 <td>{index + 1}</td>
-                <td>{invitation.title}</td>
-                <td>{invitation.date}</td>
-                <td>{invitation.time}</td>
-                <td>{invitation.location}</td>
+                <td>{meeting.title}</td>
+                <td>{meeting.date}</td>
+                <td>{meeting.time}</td>
+                <td>{meeting.location}</td>
                 <td>
                   <span
                     className={`badge ${
-                      invitation.status === "accepted"
+                      meeting.status === "accepted"
                         ? "bg-success"
-                        : invitation.status === "declined"
+                        : meeting.status === "declined"
                         ? "bg-danger"
                         : "bg-warning text-dark"
                     }`}
                   >
-                    {invitation.status.charAt(0).toUpperCase() +
-                      invitation.status.slice(1)}
+                    {meeting.status.charAt(0).toUpperCase() +
+                      meeting.status.slice(1)}
                   </span>
                 </td>
                 <td>
-                  {invitation.status === "pending" && (
+                  {meeting.status === "pending" && (
                     <>
                       <button
                         className="btn btn-sm btn-success me-2"
                         onClick={() =>
-                          updateInvitationStatus(invitation.id, "accepted")
+                          updateMeetingStatus(meeting.id, "accepted")
                         }
                       >
                         <FaCheck /> Accept
@@ -128,7 +128,7 @@ const InvitationList = () => {
                       <button
                         className="btn btn-sm btn-danger me-2"
                         onClick={() =>
-                          updateInvitationStatus(invitation.id, "declined")
+                          updateMeetingStatus(meeting.id, "declined")
                         }
                       >
                         <FaTimes /> Decline
@@ -137,7 +137,7 @@ const InvitationList = () => {
                   )}
                   <button
                     className="btn btn-sm btn-secondary"
-                    onClick={() => deleteInvitation(invitation.id)}
+                    onClick={() => deleteMeeting(meeting.id)}
                   >
                     <FaTrash /> Remove
                   </button>
